@@ -10,6 +10,8 @@ import { dirname, extname, isAbsolute, join, relative, resolve } from 'node:path
 // Adding a file here is a deliberate decision: everything in the chat must go through the brain pipeline (FL12).
 const ALLOWED_BRAIN_IMPORTERS = [
   'src/components/CreditsModal.tsx',
+  // Dictionary screen: reads only the dictionary data layer (lookups, word book, headword picker), never the chat pipeline. Approved 2026-10-17.
+  'src/components/DictionaryScreen.tsx',
   'src/services/axonBrainInterface.ts',
 ] as const;
 

@@ -12,7 +12,9 @@ export type EditOp =
   /** Keep the rectangle x, y, width, height of the picture as it is at this step. */
   | { type: 'crop'; x: number; y: number; width: number; height: number }
   /** Scale the picture as it is at this step to exactly this size. */
-  | { type: 'resize'; width: number; height: number };
+  | { type: 'resize'; width: number; height: number }
+  | { type: 'adjust'; brightness: number; contrast: number; saturation: number; warmth: number }
+  | { type: 'filter'; id: string; strength: number };
 
 export interface EditHistory {
   ops: EditOp[];

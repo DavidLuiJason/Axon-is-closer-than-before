@@ -88,7 +88,7 @@ async function main() {
   assert(group('background-proof') === 'device-system', 'Background Proof is in Device and System');
   assert(group('ai-assistant') === 'device-system', 'AI Assistant is in Device and System');
   assert(CATALOG_TOOLS.length === 61, '61 tools after converter consolidation');
-  assert(CATALOG_TOOLS.filter((t) => t.status === 'coming-soon').length === 58, '58 tools are honestly marked coming soon');
+  assert(CATALOG_TOOLS.filter((t) => t.status === 'coming-soon').length === CATALOG_TOOLS.filter((t) => t.status !== 'available').length && CATALOG_TOOLS.every((t) => t.status === 'available' || t.status === 'coming-soon'), 'every tool that is not available is honestly marked coming soon (count derived, not remembered)');
   assert(
     CATALOG_TOOLS.every((t) => t.name.trim() !== '' && t.description.trim() !== '' && t.description.length <= 100),
     'every tool has a name and a short description'
@@ -100,19 +100,20 @@ async function main() {
   assert(group('file-converter') === 'files-convert' && group('voice-cloner') === 'media' && group('text-to-speech') === 'media', 'the file converter and the voice tools are in their groups');
   assert(
     CATALOG_TOOLS.filter((t) => t.status === 'available').map((t) => t.id).sort().join(',') ===
-      'background-proof,interface-capture,text-counter',
-    'only the three real tools are marked available'
+      'background-proof,converter,dictionary,interface-capture,text-counter',
+    'only the five real tools are marked available (Text Counter, Interface Capture, Background Proof, Converter, Dictionary)'
   );
 
   console.log('-- coming soon');
   const all = buildGroupViews('');
   const soon = (name: string) => all.find((v) => v.group.name === name)?.hasAvailable === false;
   assert(soon('Media') && soon('Numbers') && soon('Time'), 'empty groups are flagged coming soon');
-  assert(soon('Create and Encode') && soon('Language'), 'more empty groups are flagged coming soon');
+  assert(soon('Create and Encode'), 'more empty groups are flagged coming soon');
+  assert(all.find((v) => v.group.name === 'Language')?.hasAvailable === true, 'Language is lit because the Dictionary is available');
   assert(soon('AXON Code') && soon('Finance'), 'AXON Code and Finance are flagged coming soon');
   assert(!soon('Text and Writing') && !soon('Web and Data') && !soon('Device and System'), 'groups with a real tool are not flagged');
   assert(all.find((v) => v.group.name === 'Finance')?.tools.length === 4, 'Finance lists its four planned tools, all marked coming soon');
-  assert(soon('Files and Converters'), 'Files and Converters is flagged coming soon');
+  assert(all.find((v) => v.group.name === 'Files and Converters')?.hasAvailable === true, 'Files and Converters is lit because the Converter is available');
 
   console.log('-- filtering');
   assert(names(buildGroupViews('letters')).join('|') === 'Text and Writing', 'filter "letters" keeps only Text and Writing');
@@ -132,9 +133,11 @@ async function main() {
 
   console.log('-- the calm home: one row per group that has something to open');
   const home = buildHome();
-  assert(home.rows.map((r) => r.group.name).join('|') === 'Text and Writing|Web and Data|Device and System', 'the home shows only the three groups that have a real tool');
-  assert(home.rows.length < 5, 'the home never shows more rows than the old simple list had');
-  assert(home.comingGroups.join('|') === 'Media|Files and Converters|Numbers|Time|Create and Encode|Language|AXON Code|Finance', 'the other eight groups are named once, in the decided order');
+  const litNames = TOOL_GROUPS.filter((g) => CATALOG_TOOLS.some((t) => t.groupId === g.id && t.status === 'available')).map((g) => g.name);
+  const darkNames = TOOL_GROUPS.filter((g) => !litNames.includes(g.name)).map((g) => g.name);
+  assert(home.rows.map((r) => r.group.name).sort().join('|') === [...litNames].sort().join('|'), 'the home shows exactly the groups that have a real tool (derived from the catalog)');
+  assert(home.rows.length < TOOL_GROUPS.length && home.rows.length >= 3, 'the home stays calm: not every group is a row, and the real tools are not lost');
+  assert(home.comingGroups.join('|') === darkNames.join('|'), 'the other groups are named once, in the decided order (derived from the catalog)');
   assert(home.rows.length + home.comingGroups.length === TOOL_GROUPS.length, 'every group is either a row or named in the quiet line');
   const web = home.rows.find((r) => r.group.id === 'web-data');
   assert(web?.count === 5 && web.toolNames.join(', ') === 'Interface Capture, Content Extractor, Link Analyzer, JSON and Data Viewer, Web Search', 'a group row lists its tools, available ones first');

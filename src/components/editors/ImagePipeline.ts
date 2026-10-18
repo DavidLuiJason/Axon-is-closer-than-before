@@ -9,6 +9,8 @@
  */
 
 import type { EditOp } from '../../tools/imageEdit/history';
+import { applyAdjust } from '../../tools/imageEdit/adjust';
+import { applyFilter, isKnownFilterId } from '../../tools/imageEdit/filters';
 
 /**
  * Starts from the bitmap and, for each op in order, draws into a NEW canvas:
@@ -81,6 +83,26 @@ export function renderOps(
           cw,
           ch
         );
+      }
+    } else if (op.type === 'adjust' || op.type === 'filter') {
+      nextCanvas.width = curCanvas.width;
+      nextCanvas.height = curCanvas.height;
+      const ctx = nextCanvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(curCanvas, 0, 0);
+        try {
+          if (op.type === 'adjust') {
+            const data = ctx.getImageData(0, 0, nextCanvas.width, nextCanvas.height);
+            data.data.set(applyAdjust(data.data, op));
+            ctx.putImageData(data, 0, 0);
+          } else if (isKnownFilterId(op.id)) {
+            const data = ctx.getImageData(0, 0, nextCanvas.width, nextCanvas.height);
+            data.data.set(applyFilter(data.data, op.id, op.strength));
+            ctx.putImageData(data, 0, 0);
+          }
+        } catch {
+          // Unreadable canvas: the unmodified drawing is already present.
+        }
       }
     } else if (op.type === 'resize') {
       const rw = Math.max(1, Math.round(op.width));
