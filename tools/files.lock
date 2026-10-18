@@ -1,6 +1,6 @@
 {
  "version": 2,
- "seal": "b772bd23a5b65de0ab4c72c494c0f988a4126285c1572905d2e2b4b58b7066cf",
+ "seal": "b74f3276a624d90a98e1f6e5c9439f5892b43f5083a777ea4caad05e1aebc8fd",
  "dictionaries": [
   "public/dictionary/en"
  ],
@@ -471,6 +471,15 @@
   "src/tokens/designTokens.ts": {
    "bytes": 2345
   },
+  "src/tools/audioEdit/audio.ts": {
+   "bytes": 4633
+  },
+  "src/tools/audioEdit/wav.ts": {
+   "bytes": 3140
+  },
+  "src/tools/collage/collage.ts": {
+   "bytes": 5971
+  },
   "src/tools/converter/convert.ts": {
    "bytes": 2768
   },
@@ -561,11 +570,17 @@
   "src/tools/imageEdit/pictureSet.ts": {
    "bytes": 4834
   },
+  "src/tools/shared/opHistory.ts": {
+   "bytes": 1024
+  },
   "src/tools/textCounterRun.ts": {
    "bytes": 2305
   },
   "src/tools/toolCatalog.ts": {
    "bytes": 6535
+  },
+  "src/tools/videoEdit/timeline.ts": {
+   "bytes": 5665
   },
   "src/types/index.ts": {
    "bytes": 834
@@ -575,6 +590,12 @@
   },
   "tests/askChoices.test.ts": {
    "bytes": 6407
+  },
+  "tests/audioEdit.test.ts": {
+   "bytes": 8538
+  },
+  "tests/audioWav.test.ts": {
+   "bytes": 4655
   },
   "tests/autoUnpack.test.py": {
    "bytes": 2008
@@ -593,6 +614,9 @@
   },
   "tests/chatSession.test.ts": {
    "bytes": 6145
+  },
+  "tests/collage.test.ts": {
+   "bytes": 5042
   },
   "tests/crash.test.ts": {
    "bytes": 17237
@@ -657,6 +681,9 @@
   "tests/mindPipeline.test.ts": {
    "bytes": 8737
   },
+  "tests/opHistory.test.ts": {
+   "bytes": 1055
+  },
   "tests/packDictionary.test.py": {
    "bytes": 496
   },
@@ -695,6 +722,9 @@
   },
   "tests/verdict.test.ts": {
    "bytes": 7351
+  },
+  "tests/videoTimeline.test.ts": {
+   "bytes": 7817
   },
   "tests/wordBook.test.ts": {
    "bytes": 4483
