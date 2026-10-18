@@ -1,6 +1,6 @@
 {
  "version": 2,
- "seal": "159915b0448d204300101802aa89e5b7ac40cb987f5f1dad682e031be3e888f8",
+ "seal": "b772bd23a5b65de0ab4c72c494c0f988a4126285c1572905d2e2b4b58b7066cf",
  "dictionaries": [
   "public/dictionary/en"
  ],
@@ -372,8 +372,17 @@
   "src/components/editors/AudioEditorScreen.tsx": {
    "bytes": 1852
   },
+  "src/components/editors/CropOverlay.tsx": {
+   "bytes": 10420
+  },
   "src/components/editors/ImageEditorScreen.tsx": {
    "bytes": 1852
+  },
+  "src/components/editors/ImagePipeline.ts": {
+   "bytes": 4305
+  },
+  "src/components/editors/MediaStrip.tsx": {
+   "bytes": 3073
   },
   "src/components/editors/VideoEditorScreen.tsx": {
    "bytes": 1852
@@ -537,8 +546,14 @@
   "src/tools/engines/time/timer.ts": {
    "bytes": 4131
   },
+  "src/tools/imageEdit/adjust.ts": {
+   "bytes": 1924
+  },
   "src/tools/imageEdit/cropResize.ts": {
    "bytes": 3603
+  },
+  "src/tools/imageEdit/filters.ts": {
+   "bytes": 1757
   },
   "src/tools/imageEdit/history.ts": {
    "bytes": 2036
@@ -618,8 +633,14 @@
   "tests/fixtures/sym1-written-set.json": {
    "bytes": 8593
   },
+  "tests/imageAdjust.test.ts": {
+   "bytes": 2614
+  },
   "tests/imageEditHistory.test.ts": {
    "bytes": 3551
+  },
+  "tests/imageFilters.test.ts": {
+   "bytes": 1816
   },
   "tests/kernel.test.ts": {
    "bytes": 22288
